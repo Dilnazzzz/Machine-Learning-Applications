@@ -1,0 +1,10 @@
+import jax
+import jax.numpy as jnp
+import flaxmodels as fm 
+
+x = jnp.expand_dims(face, axis=0)
+key = jax.random.PRNGKey(0)
+
+resnet18 = fm.ResNet18(output='activations', pretrained='imagenet')
+params = resnet18.init(key, x)
+activations = resnet18.apply(params, x, train=False)
