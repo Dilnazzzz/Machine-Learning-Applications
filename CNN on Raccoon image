@@ -8,3 +8,20 @@ key = jax.random.PRNGKey(0)
 resnet18 = fm.ResNet18(output='activations', pretrained='imagenet')
 params = resnet18.init(key, x)
 activations = resnet18.apply(params, x, train=False)
+
+# We now look at the `activations`; specifically `conv1`, which are the outputs of the first convolution layer. This layer takes in an image with 3 channels, and produces an output with 64 channels, each of which are individually visualized below:
+
+
+fig, ax = plt.subplots(nrows=8, ncols=8, figsize=(25, 25))
+
+for i in range(8):
+    for j in range(8):
+        ax[i, j].imshow(activations['conv1'][0, :, :, j + 8*i], cmap="Greys")
+        ax[i, j].set_title(f"Channel no {j + 8*i}")
+
+fig, ax = plt.subplots(nrows=16, ncols=16, figsize=(27, 25))
+
+for i in range(16):
+    for j in range(16):
+        ax[i, j].imshow(activations['block3_0'][0, :, :, j + 8*i], cmap="Greys")
+        ax[i, j].set_title(f"Channel no {j + 8*i}")
